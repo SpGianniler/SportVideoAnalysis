@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.HelloController">
+   <children>
+      <VBox alignment="CENTER_LEFT" prefHeight="800.0" prefWidth="225.0" styleClass="sidebar" stylesheets="@../../../../../../../../scheduleManagerPc/src/main/resources/stylesheets/dark.css">
+         <children>
+            <Label prefHeight="75.0" prefWidth="225.0" style="-fx-background-color: E96151;" text="Sports Video Analysis" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Comfortaa Bold" size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../../../../../scheduleManagerPc/src/main/resources/stylesheets/dark.css">
+               <children>
+                  <FontAwesomeIconView glyphName="DASHBOARD" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
+                  <Label text="Dashboard" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../../../../../scheduleManagerPc/src/main/resources/stylesheets/dark.css">
+               <children>
+                  <FontAwesomeIconView glyphName="CALENDAR" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
+                  <Label text="Schedule" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../../../../../scheduleManagerPc/src/main/resources/stylesheets/dark.css">
+               <children>
+                  <FontAwesomeIconView glyphName="ADDRESS_CARD" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
+                  <Label text="User Information" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../../../../../scheduleManagerPc/src/main/resources/stylesheets/dark.css">
+               <children>
+                  <FontAwesomeIconView glyphName="EXCLAMATION" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
+                  <Label text="Requests" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../../../../../scheduleManagerPc/src/main/resources/stylesheets/dark.css">
+               <children>
+                  <FontAwesomeIconView glyphName="FOLDER" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
+                  <Label text="Documents" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="289.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../../../../../scheduleManagerPc/src/main/resources/stylesheets/dark.css">
+               <children>
+                  <FontAwesomeIconView glyphName="BRIEFCASE" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
+                  <Label text="Management" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="329.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../../../../../scheduleManagerPc/src/main/resources/stylesheets/dark.css">
+               <children>
+                  <FontAwesomeIconView glyphName="GEAR" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
+                  <Label text="Settings" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <VBox alignment="TOP_CENTER" prefHeight="191.0" prefWidth="225.0" styleClass="box" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="CONTROLS" textAlignment="CENTER" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="PLAY " textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="PLAY" size="1.5EM" />
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="41.0">
+                     <children>
+                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="PAUSE" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="PAUSE" size="1.5EM" />
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="77.0">
+                     <children>
+                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="STOP " textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="STOP" size="1.5EM" />
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Record Start" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="CIRCLE" size="1.5EM" />
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Record End  " textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="CIRCLE_THIN" size="1.5EM" />
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+            <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Add Record" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Comfortaa" size="14.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="PLUS_CIRCLE" size="1.5EM" />
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER_LEFT" layoutX="225.0" prefHeight="800.0" prefWidth="1055.0" style="-fx-background-color: FDF5E6;">
+         <children>
+            <Pane minHeight="75.0" prefHeight="75.0" prefWidth="1055.0" style="-fx-background-color: #FDF5E6;" VBox.vgrow="NEVER">
+               <children>
+                  <Label layoutX="14.0" layoutY="28.0" text="Video Player" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+               <effect>
+                  <DropShadow height="10.0" radius="4.5" width="10.0" />
+               </effect>
+            </Pane>
+            <MediaView fitHeight="525.0" fitWidth="1055.0" pickOnBounds="true" preserveRatio="false" smooth="false" />
+            <HBox prefHeight="400.0" prefWidth="1055.0">
+               <children>
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="352.0" styleClass="card-01">
+                     <children>
+                        <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: E96151;" text="Attack" textFill="WHITE">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="352.0" styleClass="card-02">
+                     <children>
+                        <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: E96151;" text="Defence" textFill="WHITE">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="352.0" styleClass="card-01">
+                     <children>
+                        <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: E96151;" text="Transition" textFill="WHITE">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

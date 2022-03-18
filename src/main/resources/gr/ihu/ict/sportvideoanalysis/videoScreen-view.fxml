@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.pannable.PannableScrollPane?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -200,7 +199,7 @@
                   </Label>
                   <HBox alignment="CENTER">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="PLAY " textAlignment="CENTER">
+                        <JFXButton fx:id="playButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#playButtonOnAction" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="PLAY " textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -218,7 +217,7 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="41.0">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="PAUSE" textAlignment="CENTER">
+                        <JFXButton fx:id="pauseButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#pauseButtonOnAction" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="PAUSE" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -236,7 +235,7 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="77.0">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="STOP " textAlignment="CENTER">
+                        <JFXButton fx:id="stopButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#stopButtonOnAction" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="STOP " textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -254,7 +253,7 @@
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Record Start" textAlignment="CENTER">
+                        <JFXButton fx:id="recStartButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#recStartButtonOnAction" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Record Start" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -272,7 +271,7 @@
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Record End  " textAlignment="CENTER">
+                        <JFXButton fx:id="recStopButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#recStopButtonOnAction" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Record End  " textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -292,7 +291,7 @@
             </VBox>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../stylesheets/dark.css">
                <children>
-                  <Label text="Record Start Time:" textFill="#7c8184">
+                  <Label fx:id="startTimeLabel" text="Record Start Time:" textFill="#7c8184">
                      <font>
                         <Font name="Comfortaa" size="12.0" />
                      </font>
@@ -306,7 +305,7 @@
                         <Insets right="5.0" />
                      </padding>
                   </Label>
-                  <TextField alignment="CENTER" prefWidth="70.0" promptText="00:00:00" />
+                  <TextField fx:id="startTimeTextField" alignment="CENTER" prefWidth="70.0" promptText="00:00:00" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -317,7 +316,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../stylesheets/dark.css">
                <children>
-                  <Label text="Record End Time:" textFill="#7c8184">
+                  <Label fx:id="endTimeLabel" text="Record End Time:" textFill="#7c8184">
                      <font>
                         <Font name="Comfortaa" size="12.0" />
                      </font>
@@ -331,7 +330,7 @@
                         <Insets right="11.0" />
                      </padding>
                   </Label>
-                  <TextField alignment="CENTER" prefWidth="70.0" promptText="00:00:00" />
+                  <TextField fx:id="endTimeTextField" alignment="CENTER" prefWidth="70.0" promptText="00:00:00" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -340,7 +339,7 @@
                   <Insets left="10.0" />
                </padding>
             </HBox>
-            <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Add Record" textAlignment="CENTER">
+            <JFXButton fx:id="addRecButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addRecButtonOnAction" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Add Record" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </VBox.margin>
@@ -377,7 +376,7 @@
             </Pane>
             <Pane minHeight="325.0" prefHeight="725.0" prefWidth="1055.0" style="-fx-background-color: #FDF5E6;">
                <children>
-                  <ImageView fitHeight="525.0" fitWidth="1055.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="image" fitHeight="525.0" fitWidth="1055.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../images/download.jpg" />
                      </image>
@@ -396,29 +395,7 @@
                               <Font name="Comfortaa" size="14.0" />
                            </font>
                         </Label>
-                        <PannableScrollPane prefHeight="150.0">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <RadioButton mnemonicParsing="false" prefHeight="30.0" text="Karagounis Giorgos" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="Comfortaa Regular" size="12.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <RadioButton mnemonicParsing="false" prefHeight="30.0" text="Karagounis Giorgos" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="Comfortaa Regular" size="12.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <RadioButton mnemonicParsing="false" prefHeight="30.0" text="Karagounis Giorgos" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="Comfortaa Regular" size="12.0" />
-                                       </font>
-                                    </RadioButton>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </PannableScrollPane>
+                        <ListView fx:id="listView1" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                      <opaqueInsets>
                         <Insets />
@@ -431,6 +408,7 @@
                               <Font name="Comfortaa" size="14.0" />
                            </font>
                         </Label>
+                        <ListView fx:id="listView2" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                      <opaqueInsets>
                         <Insets />

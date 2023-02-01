@@ -59,15 +59,15 @@ public class VideoScreenController implements Initializable {
     }
 
     public void recStartButtonOnAction(){
-        System.err.println("Get record start time");
+        System.out.println("Get record start time");
     }
 
     public void recStopButtonOnAction(){
-        System.err.println("Get record stop time");
+        System.out.println("Get record stop time");
     }
 
     public void addRecButtonOnAction(){
-        System.err.println("Add record to db");
+        System.out.println("Add record to db");
     }
 
 

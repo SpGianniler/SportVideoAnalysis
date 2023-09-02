@@ -9,7 +9,8 @@
     -fx-background-color: transparent;
 }
 .btns:hover{
-    -fx-background-color: #202332;
+    -fx-background-color: #5a5a5c;
+    -fx-text-fill: #fff;
 }
 .loginbtns{
     -fx-background-color:  #E96151;

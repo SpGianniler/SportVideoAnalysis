@@ -1,19 +1,27 @@
 package gr.ihu.ict.sportvideoanalysis;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class VideoScreenController implements Initializable {
     @FXML protected ImageView image;
     @FXML protected Label videoScreenTitle;
+    @FXML protected Label managementLabel;
     @FXML protected Hyperlink powerLink;
     @FXML protected Button playButton;
     @FXML protected Button pauseButton;
@@ -70,5 +78,26 @@ public class VideoScreenController implements Initializable {
         System.out.println("Add record to db");
     }
 
+    public void managementOnAction() {
+        openManagement();
+    }
+    public void openManagement(){
+        try{
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("managementView.fxml")));
+            Stage managementStage = new Stage();
+            managementStage.initStyle(StageStyle.TRANSPARENT);
+            Scene managementScene = new Scene(root);
+
+            managementStage.setScene(managementScene);
+            managementScene.setFill(Color.TRANSPARENT);
+            managementStage.initModality(Modality.APPLICATION_MODAL);
+            managementStage.setTitle("Profile Manager");
+
+            managementStage.showAndWait();
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
 
 }

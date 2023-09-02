@@ -1,6 +1,5 @@
 package gr.ihu.ict.sportvideoanalysis;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,9 +21,9 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-
     @FXML
     private Label loginMessageLabel;
+
     @FXML
     private Button loginButton;
     @FXML
@@ -49,7 +48,7 @@ public class LoginController implements Initializable {
         lockImageView.setImage(lockImage);
     }
 
-    public void loginButtonOnAction(ActionEvent actionEvent){
+    public void loginButtonOnAction(){
         if (!usernameTextField.getText().isBlank() || !enterPasswordField.getText().isBlank()){
             validateLogin();
             createVideoScreen();
@@ -60,7 +59,7 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void cancelButtonOnAction(ActionEvent actionEvent){
+    public void cancelButtonOnAction(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
@@ -75,7 +74,7 @@ public class LoginController implements Initializable {
 
     public void createVideoScreen(){
         try{
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("videoScreen-view.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("videoScreenView.fxml")));
             Stage videoScreenStage = new Stage();
             videoScreenStage.initStyle(StageStyle.TRANSPARENT);
             Scene scene = new Scene(root);

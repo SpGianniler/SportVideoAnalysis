@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #252524;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.ManagementController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #808580;">
+         <children>
+            <Label fx:id="lblProfManager" alignment="CENTER" contentDisplay="CENTER" text="Profile Manager" textFill="#e4e4e4" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER_LEFT" layoutX="130.0" layoutY="50.0" prefHeight="350.0" prefWidth="470.0" style="-fx-background-color: #EDEDED;">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="90.0" text="Profile Name" />
+                  <TextField />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" prefWidth="90.0" text="Number of Lists" />
+                  <TextField />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" prefWidth="90.0" text="Lists Names" />
+                  <TextField />
+               </children>
+            </HBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutY="50.0" prefHeight="350.0" prefWidth="130.0" spacing="1.0" style="-fx-background-color: #C9CBCA;" styleClass="btns" stylesheets="@../../../../stylesheets/light.css">
+         <padding>
+            <Insets bottom="5.0" left="1.0" right="1.0" top="5.0" />
+         </padding>
+         <children>
+            <Label fx:id="newLabel" alignment="CENTER" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="New">
+               <VBox.margin>
+                  <Insets bottom="1.0" />
+               </VBox.margin>
+            </Label>
+            <Label alignment="CENTER" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Load" />
+            <Label alignment="CENTER" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Save" />
+            <Label alignment="CENTER" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Save As..." />
+            <Label fx:id="closeLabel" alignment="CENTER" onMouseClicked="#closeLabelOnAction" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Close" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,6 +1,5 @@
 package gr.ihu.ict.sportvideoanalysis;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,16 +14,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-
     @FXML
     private Label loginMessageLabel;
+
     @FXML
     private Button loginButton;
     @FXML
@@ -49,33 +47,31 @@ public class LoginController implements Initializable {
         lockImageView.setImage(lockImage);
     }
 
-    public void loginButtonOnAction(ActionEvent actionEvent){
+    public void loginButtonOnAction(){
         if (!usernameTextField.getText().isBlank() || !enterPasswordField.getText().isBlank()){
-            validateLogin();
-            createVideoScreen();
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.close();
-        }else{
+            if (validateLogin()){
+                loginMessageLabel.setText("logging you in...");
+                createVideoScreen();
+                Stage stage = (Stage) loginButton.getScene().getWindow();
+                stage.close();
+            }else{loginMessageLabel.setText("Wrong username and/or password! \nPlease try again!");}
+        }else {
             loginMessageLabel.setText("Please enter username and/or password");
         }
     }
 
-    public void cancelButtonOnAction(ActionEvent actionEvent){
+    public void cancelButtonOnAction(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
-    public void validateLogin(){
-        if(usernameTextField.getText().equals("admin") && enterPasswordField.getText().equals("admin")){
-            loginMessageLabel.setText("logging you in...");
-        }else{
-            loginMessageLabel.setText("Wrong username and/or password! \nPlease try again!");
-        }
+    public boolean validateLogin(){
+        return usernameTextField.getText().equals("admin") && enterPasswordField.getText().equals("admin");
     }
 
     public void createVideoScreen(){
         try{
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("videoScreen-view.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("videoScreenView.fxml")));
             Stage videoScreenStage = new Stage();
             videoScreenStage.initStyle(StageStyle.TRANSPARENT);
             Scene scene = new Scene(root);
@@ -84,7 +80,7 @@ public class LoginController implements Initializable {
             scene.setFill(Color.TRANSPARENT);
             videoScreenStage.show();
         }catch(Exception e){
-            e.printStackTrace();
+            Main.handleException(e);
             e.getCause();
         }
     }

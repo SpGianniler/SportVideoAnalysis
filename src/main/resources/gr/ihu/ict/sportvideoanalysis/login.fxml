@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.LoginController">
     <left>
         <AnchorPane prefHeight="400.0" prefWidth="223.0" style="-fx-background-color: #cbbeb5; -fx-background-radius: 0.5em 0 0 0.5em;" BorderPane.alignment="CENTER">
             <ImageView fx:id="brandingImageView" fitHeight="274.0" fitWidth="221.0" layoutX="1.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">

@@ -3,22 +3,20 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.VideoScreenController">
+<AnchorPane fx:id="videoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.VideoScreenController">
    <children>
       <VBox alignment="CENTER_LEFT" prefHeight="800.0" prefWidth="225.0" styleClass="sidebar" stylesheets="@../../../../stylesheets/dark.css">
          <children>
@@ -57,8 +55,8 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../stylesheets/dark.css">
                <children>
-                  <FontAwesomeIconView glyphName="CALENDAR" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
-                  <Label text="Schedule" textFill="#7c8184">
+                  <FontAwesomeIconView glyphName="VIDEO_CAMERA" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
+                  <Label fx:id="loadVideoLabel" text="Load Video" textFill="#7c8184">
                      <font>
                         <Font name="Comfortaa" size="15.0" />
                      </font>
@@ -376,19 +374,12 @@
             </Pane>
             <Pane minHeight="325.0" prefHeight="725.0" prefWidth="1055.0" style="-fx-background-color: #FDF5E6;">
                <children>
-                  <ImageView fx:id="image" fitHeight="525.0" fitWidth="1055.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/download.jpg" />
-                     </image>
-                     <viewport>
-                        <Rectangle2D height="525.0" width="1055.0" />
-                     </viewport>
-                  </ImageView>
+                  <MediaView fx:id="mediaView" fitHeight="525.0" fitWidth="1045.0" layoutX="7.0" />
                </children>
             </Pane>
             <HBox prefHeight="400.0" prefWidth="1055.0">
                <children>
-                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="211.0" styleClass="card-02">
+                  <VBox fx:id="listsBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="211.0" styleClass="card-02">
                      <children>
                         <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="211.0" style="-fx-background-color: E96151;" text="Players" textFill="WHITE">
                            <font>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -7,11 +9,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #252524;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.ManagementController">
+<AnchorPane fx:id="managementPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #252524;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.ManagementController">
    <children>
       <VBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #808580;">
          <children>
-            <Label fx:id="lblProfManager" alignment="CENTER" contentDisplay="CENTER" text="Profile Manager" textFill="#e4e4e4" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Profile Manager" textFill="#e4e4e4" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <FontAwesomeIconView glyphName="TIMES_CIRCLE" selectionEnd="1" size="1.3em">
+                           <HBox.margin>
+                              <Insets right="10.0" top="5.0" />
+                           </HBox.margin>
+                        </FontAwesomeIconView>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
          </children>
       </VBox>
       <VBox alignment="CENTER_LEFT" layoutX="130.0" layoutY="50.0" prefHeight="350.0" prefWidth="470.0" style="-fx-background-color: #EDEDED;">
@@ -19,19 +39,33 @@
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="90.0" text="Profile Name" />
-                  <TextField />
+                  <TextField fx:id="profNameText" prefWidth="350.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label alignment="CENTER" prefWidth="90.0" text="Number of Lists" />
-                  <TextField />
+                  <TextField fx:id="listNoText" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label alignment="CENTER" prefWidth="90.0" text="Lists Names" />
-                  <TextField />
+                  <TextField fx:id="listsNameText" prefWidth="350.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="88.0" prefWidth="402.0">
+                     <children>
+                        <JFXButton fx:id="setAsActiveBtn" buttonType="RAISED" onMouseClicked="#setAsActiveOnClick" style="-fx-background-color: #C9CBCA;" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Set as Active Profile">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="setAsActiveSaveBtn" buttonType="RAISED" onMouseClicked="#setSetAsActiveSaveBtn" style="-fx-background-color: #C9CBCA;" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Set as Active and Save" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
          </children>
@@ -52,9 +86,9 @@
                   <Insets bottom="1.0" />
                </VBox.margin>
             </Label>
-            <Label alignment="CENTER" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Load" />
-            <Label alignment="CENTER" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Save" />
-            <Label alignment="CENTER" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Save As..." />
+            <Label fx:id="loadLabel" alignment="CENTER" onMouseClicked="#loadLabelOnAction" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Load" />
+            <Label fx:id="saveLabel" alignment="CENTER" onMouseClicked="#saveLabelOnClick" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Save" />
+            <Label fx:id="saveAsLabel" alignment="CENTER" onMouseClicked="#saveAsLabelOnClick" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Save As..." />
             <Label fx:id="closeLabel" alignment="CENTER" onMouseClicked="#closeLabelOnAction" prefWidth="125.0" styleClass="btns" stylesheets="@../../../../stylesheets/light.css" text="Close" />
          </children>
       </VBox>

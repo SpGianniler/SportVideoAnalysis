@@ -14,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.File;
 import java.net.URL;
 import java.util.Objects;
@@ -50,11 +49,13 @@ public class LoginController implements Initializable {
 
     public void loginButtonOnAction(){
         if (!usernameTextField.getText().isBlank() || !enterPasswordField.getText().isBlank()){
-            validateLogin();
-            createVideoScreen();
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.close();
-        }else{
+            if (validateLogin()){
+                loginMessageLabel.setText("logging you in...");
+                createVideoScreen();
+                Stage stage = (Stage) loginButton.getScene().getWindow();
+                stage.close();
+            }else{loginMessageLabel.setText("Wrong username and/or password! \nPlease try again!");}
+        }else {
             loginMessageLabel.setText("Please enter username and/or password");
         }
     }
@@ -64,12 +65,8 @@ public class LoginController implements Initializable {
         stage.close();
     }
 
-    public void validateLogin(){
-        if(usernameTextField.getText().equals("admin") && enterPasswordField.getText().equals("admin")){
-            loginMessageLabel.setText("logging you in...");
-        }else{
-            loginMessageLabel.setText("Wrong username and/or password! \nPlease try again!");
-        }
+    public boolean validateLogin(){
+        return usernameTextField.getText().equals("admin") && enterPasswordField.getText().equals("admin");
     }
 
     public void createVideoScreen(){
@@ -83,7 +80,7 @@ public class LoginController implements Initializable {
             scene.setFill(Color.TRANSPARENT);
             videoScreenStage.show();
         }catch(Exception e){
-            e.printStackTrace();
+            Main.handleException(e);
             e.getCause();
         }
     }

@@ -1,7 +1,6 @@
 package gr.ihu.ict.sportvideoanalysis;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,11 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -23,7 +18,6 @@ public class Main extends Application {
     public static final String EXE_LOCATION = System.getProperty("user.dir");
     public static final String DEFAULT_PROFILES_DIRECTORY = EXE_LOCATION + "\\src\\main\\resources\\profiles";
     public static final String DEFAULT_PROFILE = EXE_LOCATION + "\\src\\main\\resources\\profiles\\defaultProfile.json";
-//    public static final String DEFAULT_PROFILE = EXE_LOCATION + "\\src\\main\\resources\\profiles\\defaultProfile.json";
     private double xOffset = 0;
     private double yOffset = 0;
 
@@ -37,7 +31,7 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         Scene scene = new Scene(root);
 
-        root.setOnMousePressed(event->{
+        root.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
         });
@@ -55,7 +49,7 @@ public class Main extends Application {
         launch();
     }
 
-    public static void showErrorDialog(String title, String message){
+    public static void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -64,38 +58,19 @@ public class Main extends Application {
         alert.showAndWait();
     }
 
-    public static void catastrophicErrorDialog(String title, String message){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
 
-        alert.setOnHidden(event -> Platform.exit());
-
-        alert.showAndWait();
-    }
-
-    public static void handleException(Exception e){
-        try{
-            LocalDateTime now = LocalDateTime.now();
-            String formattedTimeStamp = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            FileWriter fileWriter = new FileWriter("exception-"+formattedTimeStamp+".txt");
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            e.printStackTrace();
-            printWriter.close();
-        } catch (IOException ex) {
-            Main.handleException(ex);
-            catastrophicErrorDialog("Error", String.valueOf(ex.getCause()));
-        }
-    }
-
-    public static boolean isValidFile(File file){
-        if (file != null && file.isFile()){
-            //Checking if file is a ".json" file
+    public static boolean isValidFile(File file, List<String> allowedFileTypes) {
+        if (file != null && file.isFile()) {
+            // Checking if file has a valid extension
             String fileName = file.getName();
-            String fileExtension = fileName.substring(fileName.lastIndexOf(".")+1);
+            String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-            return fileExtension.equalsIgnoreCase("json");
+            // Check if the file extension is in the list of allowed extensions
+            for (String allowedType : allowedFileTypes) {
+                if (fileExtension.equalsIgnoreCase(allowedType)) {
+                    return true;
+                }
+            }
         }
         return false;
     }

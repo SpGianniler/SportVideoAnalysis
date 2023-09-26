@@ -18,7 +18,8 @@ public class JsonParser {
             File jsonFile = new File(jsonFileName);
             return objectMapper.readValue(jsonFile, Profile.class);
         } catch (IOException ex) {
-            Main.handleException(ex);
+//            Main.handleException(ex);
+            ex.printStackTrace();
             return null;
         }
     }

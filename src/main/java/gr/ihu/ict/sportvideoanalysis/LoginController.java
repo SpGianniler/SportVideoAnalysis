@@ -19,6 +19,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static gr.ihu.ict.sportvideoanalysis.Main.DEFAULT_PROFILE;
+import static gr.ihu.ict.sportvideoanalysis.Main.activeProfile;
+
 public class LoginController implements Initializable {
     @FXML
     private Label loginMessageLabel;
@@ -80,8 +83,9 @@ public class LoginController implements Initializable {
             scene.setFill(Color.TRANSPARENT);
             videoScreenStage.show();
         }catch(Exception e){
-            Main.handleException(e);
-            e.getCause();
+//            Main.handleException(e);
+//            e.getCause();
+            e.printStackTrace();
         }
     }
 }

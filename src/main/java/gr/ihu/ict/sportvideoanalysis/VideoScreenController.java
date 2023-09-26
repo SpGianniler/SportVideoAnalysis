@@ -3,17 +3,20 @@ package gr.ihu.ict.sportvideoanalysis;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,6 +29,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static gr.ihu.ict.sportvideoanalysis.Main.activeProfile;
 import static gr.ihu.ict.sportvideoanalysis.Main.isValidFile;
 
 public class VideoScreenController implements Initializable {
@@ -46,8 +50,9 @@ public class VideoScreenController implements Initializable {
     @FXML protected TextField endTimeTextField;
     @FXML protected MediaView mediaView;
     @FXML protected VBox listsBox;
-    @FXML public ListView<String> listView1;
-    @FXML public ListView<String> listView2;
+    @FXML protected HBox listViewContainer;
+//    @FXML public ListView<String> listView1;
+//    @FXML public ListView<String> listView2;
     @FXML protected Label videoLengthLabel;
     @FXML protected TextField videoCurrentText;
     @FXML protected Slider seekSlider;
@@ -66,12 +71,14 @@ public class VideoScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        listView1.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        listView1.getItems().add("Karagounis");
-        listView1.getItems().add("Katsouranis");
-        listView2.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        listView2.getItems().add("Shot");
-        listView2.getItems().add("Pass");
+//        listView1.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+//        listView1.getItems().add("Karagounis");
+//        listView1.getItems().add("Katsouranis");
+//        listView2.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+//        listView2.getItems().add("Shot");
+//        listView2.getItems().add("Pass");
+        createListViews();
+//        createListViews(listViewContainer,Integer.toString(activeProfile.getListNo()));
         volumeSlider.setValue(0.5);
         // Bind the volume slider to the MediaPlayer's volume property
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -211,6 +218,27 @@ public class VideoScreenController implements Initializable {
             managementStage.showAndWait();
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public void createListViews(){
+        listViewContainer.getChildren().clear();
+        for(int i = 0; i < activeProfile.getListNo(); i++){
+            VBox vBox = new VBox();
+            ListView<String> listView = new ListView<>();
+            Label label = new Label(activeProfile.getListNames().get(i));
+
+            //Customize label properties
+            label.setPrefHeight(50);
+            label.setFont(new Font(14));
+            label.setTextFill(Color.WHITE);
+            label.setAlignment(Pos.CENTER);
+            label.setStyle("-fx-background-color: E96151");
+
+            listView.getItems().addAll("1");
+            vBox.getChildren().addAll(label, listView);
+            listViewContainer.getChildren().add(vBox);
+
         }
     }
 

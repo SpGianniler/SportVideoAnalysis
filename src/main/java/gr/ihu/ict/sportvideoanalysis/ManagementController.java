@@ -92,6 +92,7 @@ public class ManagementController implements Initializable {
     }
 
     public void setAsActiveOnClick(){
+//        VideoScreenController.createListViews(); //maybe create the same in managementcontroller
         Main.activeProfile = getProfileTextValues();
         //todo: implement video screen refactor after changing the active profile
     }

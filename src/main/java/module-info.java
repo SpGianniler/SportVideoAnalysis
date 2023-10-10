@@ -14,6 +14,7 @@ module gr.ihu.ict.sportvideoanalysis {
     requires com.jfoenix;
     requires com.fasterxml.jackson.databind;
     requires org.apache.commons.io;
+    requires java.sql;
 
     opens gr.ihu.ict.sportvideoanalysis to javafx.fxml;
     exports gr.ihu.ict.sportvideoanalysis;

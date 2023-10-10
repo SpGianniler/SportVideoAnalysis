@@ -63,9 +63,11 @@ public class VideoScreenController implements Initializable {
     private File selectedFile;
     private Media media;
     private MediaPlayer mediaPlayer;
-    private Map<String, ListView<String>> labelToListViewMap = new HashMap<>();
+    protected Map<String, ListView<String>> labelToListViewMap = new HashMap<>();
 
-
+    public Map<String, ListView<String>> getLabelToListViewMap() {
+        return labelToListViewMap;
+    }
 
     public VideoScreenController(){
         videoChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Video Files", "*.mp4", "*.flv", "*.avi"));
@@ -322,10 +324,5 @@ public class VideoScreenController implements Initializable {
         contextMenu.getItems().addAll(loadIntoSingleList,loadIntoMultipleList);
         label.setContextMenu(contextMenu);
     }
-
-
-
-
-
 
 }

@@ -2,6 +2,8 @@ package gr.ihu.ict.sportvideoanalysis;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -9,8 +11,17 @@ import java.util.ResourceBundle;
 
 public class DatabaseController implements Initializable {
 
-    @FXML
-    protected AnchorPane databasePane;
+    @FXML protected AnchorPane databasePane;
+    @FXML protected Button createDbButton;
+    @FXML protected Button loadDbButton;
+    @FXML protected Button updateDbButton;
+    @FXML protected Button checkDbButton;
+    @FXML protected Button unsavedClipsButton;
+    @FXML protected Button savedClipsButton;
+    @FXML protected Button saveClipsButton;
+    @FXML protected Button queryButton;
+    @FXML protected Button saveHighlightButton;
+    @FXML protected TextArea queryArea;
     public void initialize(URL url, ResourceBundle resourceBundle){
 
         //todo: get active profile and check if there is a database file with the same name and display its tables except for the one with the highlights,

@@ -5,13 +5,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.DatabaseController">
+<AnchorPane fx:id="databasePane" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.DatabaseController">
    <children>
       <VBox prefHeight="800.0" prefWidth="246.0" styleClass="sidebar" stylesheets="@../../../../stylesheets/dark.css">
          <children>
@@ -27,7 +28,7 @@
                   </Label>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="77.0">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Create Database" textAlignment="CENTER">
+                        <JFXButton fx:id="createDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Create Database" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -42,7 +43,7 @@
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Load Database" textAlignment="CENTER">
+                        <JFXButton fx:id="loadDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Load Database" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -57,7 +58,7 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="41.0">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Update Database" textAlignment="CENTER">
+                        <JFXButton fx:id="updateDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Update Database" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -72,7 +73,7 @@
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Check Database" textAlignment="CENTER">
+                        <JFXButton fx:id="checkDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Check Database" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -87,7 +88,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="306.0" prefWidth="225.0" styleClass="box">
+            <VBox alignment="CENTER" prefHeight="458.0" prefWidth="246.0" styleClass="box">
                <children>
                   <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="CLIPS MENU" textAlignment="CENTER" textFill="#7c8184">
                      <font>
@@ -99,7 +100,7 @@
                   </Label>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="77.0">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Show Unsaved Clips" textAlignment="CENTER">
+                        <JFXButton fx:id="unsavedClipsButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Show Unsaved Clips" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -114,7 +115,7 @@
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Show Saved Clips" textAlignment="CENTER">
+                        <JFXButton fx:id="savedClipsButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Show Saved Clips" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -129,22 +130,7 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="41.0">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Save Clips" textAlignment="CENTER">
-                           <font>
-                              <Font name="Comfortaa" size="14.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
-                     </children>
-                     <padding>
-                        <Insets left="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER">
-                     <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Query for new highlight" textAlignment="CENTER">
+                        <JFXButton fx:id="saveClipsButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Save Clips" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -162,7 +148,30 @@
                         <Insets left="5.0" top="5.0" />
                      </padding>
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Save highlight" textAlignment="CENTER">
+                        <TextArea fx:id="queryArea" prefHeight="196.0" prefWidth="184.0" promptText="enter keywords seperated by commas (,)" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="queryButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Query for new highlight" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                     <children>
+                        <JFXButton fx:id="saveHighlightButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Save highlight" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>

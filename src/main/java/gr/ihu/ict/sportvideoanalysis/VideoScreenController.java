@@ -222,16 +222,16 @@ public class VideoScreenController implements Initializable {
     public void openDatabaseManagement(){
         try{
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("databaseView.fxml")));
-            Stage managementStage = new Stage();
-            managementStage.initStyle(StageStyle.TRANSPARENT);
-            Scene managementScene = new Scene(root);
+            Stage databaseStage = new Stage();
+            databaseStage.initStyle(StageStyle.TRANSPARENT);
+            Scene databaseScene = new Scene(root);
 
-            managementStage.setScene(managementScene);
-            managementScene.setFill(Color.TRANSPARENT);
-            managementStage.initModality(Modality.APPLICATION_MODAL);
-            managementStage.setTitle("Database Manager");
+            databaseStage.setScene(databaseScene);
+            databaseScene.setFill(Color.TRANSPARENT);
+            databaseStage.initModality(Modality.APPLICATION_MODAL);
+            databaseStage.setTitle("Database Manager");
 
-            managementStage.showAndWait();
+            databaseStage.showAndWait();
         }catch (Exception e){
             e.printStackTrace();
         }

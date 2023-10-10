@@ -101,7 +101,7 @@
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" styleClass="btns" stylesheets="@../../../../stylesheets/dark.css">
                <children>
                   <FontAwesomeIconView glyphName="LIST" glyphStyle="-fx-fill:#7C8184" size="1.3EM" textAlignment="CENTER" wrappingWidth="26.0" />
-                  <Label text="Sports Documentation" textFill="#7c8184">
+                  <Label text="Clips Management" textFill="#7c8184">
                      <font>
                         <Font name="Comfortaa" size="15.0" />
                      </font>

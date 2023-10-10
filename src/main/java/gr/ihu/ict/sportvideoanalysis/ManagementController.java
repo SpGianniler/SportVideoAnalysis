@@ -1,6 +1,7 @@
 package gr.ihu.ict.sportvideoanalysis;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -10,12 +11,14 @@ import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.ResourceBundle;
 
-import static gr.ihu.ict.sportvideoanalysis.Main.DEFAULT_PROFILES_DIRECTORY;
-import static gr.ihu.ict.sportvideoanalysis.Main.isValidFile;
+import static gr.ihu.ict.sportvideoanalysis.Main.*;
 
-public class ManagementController{
+public class ManagementController implements Initializable {
 
     @FXML protected Label newLabel;
     @FXML protected Label loadLabel;
@@ -32,14 +35,30 @@ public class ManagementController{
     FileChooser fileChooser = new FileChooser();
     File initialDirectory = new File(DEFAULT_PROFILES_DIRECTORY);
 
+    public void initialize(URL url, ResourceBundle resourceBundle){
+
+        assert activeProfile != null;
+        profNameText.setText(activeProfile.getProfName());
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String element : activeProfile.listNames){
+            if (!stringBuilder.isEmpty()){
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(element);
+        }
+        listNoText.setText( Integer.toString(activeProfile.getListNo()));
+        listsNameText.setText(stringBuilder.toString());
+
+    }
     public ManagementController() {
         fileChooser.setInitialDirectory(initialDirectory);
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
+
     }
 
     public void loadLabelOnAction(){
         File selectedFile = fileChooser.showOpenDialog(managementPane.getScene().getWindow());
-        if (isValidFile(selectedFile)){
+        if (isValidFile(selectedFile, Collections.singletonList("json"))){
             String file = selectedFile.getAbsolutePath();
             String title = "Check Check"; // temporary check to make sure that the program reads the correct file
             Main.showErrorDialog(title,"File Name \n" + file);
@@ -73,6 +92,7 @@ public class ManagementController{
     }
 
     public void setAsActiveOnClick(){
+//        VideoScreenController.createListViews(); //maybe create the same in managementController
         Main.activeProfile = getProfileTextValues();
         //todo: implement video screen refactor after changing the active profile
     }

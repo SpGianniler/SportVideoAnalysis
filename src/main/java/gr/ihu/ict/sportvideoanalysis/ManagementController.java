@@ -77,17 +77,19 @@ public class ManagementController implements Initializable {
 
     public void saveLabelOnClick(){
         Profile exportedProfile = getProfileTextValues();
-        JsonParser.exportToJson(exportedProfile, DEFAULT_PROFILES_DIRECTORY, exportedProfile.getProfName());
+        JsonParser jsonParser = new JsonParser();
+        jsonParser.exportToJson(exportedProfile, DEFAULT_PROFILES_DIRECTORY, exportedProfile.getProfName());
     }
 
     public void saveAsLabelOnClick(){
         File file = fileChooser.showSaveDialog(managementPane.getScene().getWindow());
+        JsonParser jsonParser = new JsonParser();
         if (file != null){
            Profile exportedProfile = getProfileTextValues();
            String filePath = file.getParent();
            String name = file.getName();
            name = FilenameUtils.removeExtension(name);
-           JsonParser.exportToJson(exportedProfile, filePath, name);
+            jsonParser.exportToJson(exportedProfile, filePath, name);
         }
     }
 

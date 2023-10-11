@@ -14,11 +14,11 @@ import java.util.Map;
 import static gr.ihu.ict.sportvideoanalysis.Main.isValidFile;
 
 public class JsonParser {
-    private JsonParser() {
+    public JsonParser() {
         //empty private constructor
     }
 
-    public static Profile importFromJson(String jsonFileName) {
+    public Profile importFromJson(String jsonFileName) {
         try {
             // Create an ObjectMapper instance
             ObjectMapper objectMapper = new ObjectMapper();
@@ -33,7 +33,7 @@ public class JsonParser {
         }
     }
 
-    public static void exportToJson(Profile profile, String filepath, String name){
+    public void exportToJson(Profile profile, String filepath, String name){
         try {
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -43,7 +43,7 @@ public class JsonParser {
         }
     }
 
-    public static void loadAndPopulateOne(ListView<String> listView){
+    public void loadAndPopulateOne(ListView<String> listView){
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.getExtensionFilters().addAll(
@@ -64,7 +64,7 @@ public class JsonParser {
         }
     }
 
-    private static void loadAndPopulateDataFromSingleJSON(File selectedFile, Map<String, ListView<String>> labelToListViewMap) {
+    private void loadAndPopulateDataFromSingleJSON(File selectedFile, Map<String, ListView<String>> labelToListViewMap) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, List<String>> dataMap = objectMapper.readValue(selectedFile, new TypeReference<Map<String, List<String>>>() {});
@@ -85,8 +85,9 @@ public class JsonParser {
         }
     }
 
-    public static void loadAndPopulateAll(Map<String, ListView<String>> labelToListViewMap){
+    public void loadAndPopulateAll(Map<String, ListView<String>> labelToListViewMap){
         FileChooser fileChooser = new FileChooser();
+
 
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("JSON Files", "*.json")

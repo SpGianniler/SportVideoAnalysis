@@ -22,17 +22,29 @@ public class DatabaseController implements Initializable {
     @FXML protected Button queryButton;
     @FXML protected Button saveHighlightButton;
     @FXML protected TextArea queryArea;
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    private LabelListViewMapDTO labelListViewMapDTO;
+    private ControllerManager controllerManager;
+    private DatabaseManager databaseManager;
 
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        databaseManager = new DatabaseManager(labelListViewMapDTO);
         //todo: get active profile and check if there is a database file with the same name and display its tables except for the one with the highlights,
         //      if not show message asking user if he wants to create a new database based on the profile and the loaded data in the listviews
 
     }
 
-    public DatabaseController() {}
+    public void setControllerManager(ControllerManager controllerManager) {
+        this.controllerManager = controllerManager;
+    }
 
-    private void createDatabase(){
+    public void setLabelListViewMapDTO(LabelListViewMapDTO labelListViewMapDTO) {
+        this.labelListViewMapDTO = labelListViewMapDTO;
+    }
+    public void createDatabaseOnAction(){
         //todo: create a new database based on the profile and the loaded data in the listviews
+        System.out.println("test");
+        databaseManager.setLabelListViewMapDTO(labelListViewMapDTO);
+        databaseManager.createDatabase();
     }
 
     private void loadDatabase(){

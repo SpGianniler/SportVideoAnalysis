@@ -28,9 +28,6 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static gr.ihu.ict.sportvideoanalysis.JsonParser.loadAndPopulateAll;
-import static gr.ihu.ict.sportvideoanalysis.JsonParser.loadAndPopulateOne;
 import static gr.ihu.ict.sportvideoanalysis.Main.activeProfile;
 import static gr.ihu.ict.sportvideoanalysis.Main.isValidFile;
 
@@ -63,18 +60,20 @@ public class VideoScreenController implements Initializable {
     private File selectedFile;
     private Media media;
     private MediaPlayer mediaPlayer;
-    protected Map<String, ListView<String>> labelToListViewMap = new HashMap<>();
+    private LabelListViewMapDTO labelListViewMapDTO = new LabelListViewMapDTO();
+    private ControllerManager controllerManager;
 
-    public Map<String, ListView<String>> getLabelToListViewMap() {
-        return labelToListViewMap;
-    }
 
     public VideoScreenController(){
         videoChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Video Files", "*.mp4", "*.flv", "*.avi"));
+        // Initialize the labelListViewMapDTO
+        labelListViewMapDTO.setLabelListViewMapDTO(new HashMap<>());
+        this.controllerManager = new ControllerManager();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         createListViews();
         volumeSlider.setValue(0.5);
         // Bind the volume slider to the MediaPlayer's volume property
@@ -200,9 +199,40 @@ public class VideoScreenController implements Initializable {
     public void managementOnAction() {
         openManagement();
     }
-    public void openManagement(){
-        try{
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("managementView.fxml")));
+//    public void openManagement(){
+//        try{
+//            controllerManager.setLabelListViewMapDTO(labelListViewMapDTO);
+//            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("managementView.fxml")));
+//            Stage managementStage = new Stage();
+//            managementStage.initStyle(StageStyle.TRANSPARENT);
+//            Scene managementScene = new Scene(root);
+//
+//            managementStage.setScene(managementScene);
+//            managementScene.setFill(Color.TRANSPARENT);
+//            managementStage.initModality(Modality.APPLICATION_MODAL);
+//            managementStage.setTitle("Profile Manager");
+//
+//            managementStage.showAndWait();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+    public void openManagement() {
+        try {
+            // Set the labelListViewMapDTO in the ControllerManager
+            controllerManager.setLabelListViewMapDTO(labelListViewMapDTO);
+
+            // Load the DatabaseController and set the ControllerManager
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("managementView.fxml"));
+            Parent root = loader.load();
+
+            // Get the DatabaseController instance from the loader
+            DatabaseController databaseController = loader.getController();
+
+            // Set the ControllerManager instance in the DatabaseController
+            databaseController.setControllerManager(controllerManager);
+
+            // Create the stage for the management view
             Stage managementStage = new Stage();
             managementStage.initStyle(StageStyle.TRANSPARENT);
             Scene managementScene = new Scene(root);
@@ -213,17 +243,27 @@ public class VideoScreenController implements Initializable {
             managementStage.setTitle("Profile Manager");
 
             managementStage.showAndWait();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public void databaseOnAction() {
         openDatabaseManagement();
     }
     public void openDatabaseManagement(){
         try{
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("databaseView.fxml")));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("databaseView.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller instance from the loader
+            DatabaseController databaseController = loader.getController();
+
+            // Set the LabelListViewMapDTO and ControllerManager here
+            databaseController.setLabelListViewMapDTO(labelListViewMapDTO);
+            databaseController.setControllerManager(controllerManager);
+
             Stage databaseStage = new Stage();
             databaseStage.initStyle(StageStyle.TRANSPARENT);
             Scene databaseScene = new Scene(root);
@@ -239,34 +279,33 @@ public class VideoScreenController implements Initializable {
         }
     }
 
-    public void createListViews(){
+    public void createListViews() {
         listViewContainer.getChildren().clear();
 
-        for(int i = 0; i < activeProfile.getListNo(); i++){
+        for (int i = 0; i < activeProfile.getListNo(); i++) {
             VBox vBox = new VBox();
             ListView<String> listView = new ListView<>();
             Label label = new Label(activeProfile.getListNames().get(i));
             // Set the selection mode of the ListView to MULTIPLE
             listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-
-            //Customize label properties
+            // Customize label properties
             label.setMinHeight(50);
             label.setFont(new Font(14));
             label.setTextFill(Color.WHITE);
             label.setAlignment(Pos.CENTER);
             label.setStyle("-fx-background-color: E96151; -fx-border-color: #FDF5E6; -fx-border-width: 0.1px;");
-            addContextMenu(label,listView);
+            addContextMenu(label, listView);
 
-            listView.getItems().addAll("1","2");
+            listView.getItems().addAll("1", "2");
             label.prefWidthProperty().bind(listView.widthProperty());
             vBox.getChildren().addAll(label, listView);
             listViewContainer.getChildren().add(vBox);
 
+            // Add the label and its associated ListView to the map in LabelListViewMapDTO
+            labelListViewMapDTO.getLabelListViewMapDTO().put(label.getText(), listView);
         }
     }
-
-
 
     private String formatTime(Duration time){
         long millis = (long) time.toMillis();
@@ -311,17 +350,15 @@ public class VideoScreenController implements Initializable {
 
     private void addContextMenu(Label label, ListView<String> listView) {
         ContextMenu contextMenu = new ContextMenu();
+        JsonParser jsonParser = new JsonParser();
 
-        // Add the label and its associated ListView to the map
-        labelToListViewMap.put(label.getText(), listView);
-
-        MenuItem loadIntoSingleList = new MenuItem("load Data into "+ label.getText());
-        loadIntoSingleList.setOnAction(event -> loadAndPopulateOne(listView));
+        MenuItem loadIntoSingleList = new MenuItem("load Data into " + label.getText());
+        loadIntoSingleList.setOnAction(event -> jsonParser.loadAndPopulateOne(listView));
 
         MenuItem loadIntoMultipleList = new MenuItem("load Data into all lists");
-        loadIntoMultipleList.setOnAction(event -> loadAndPopulateAll(labelToListViewMap));
+        loadIntoMultipleList.setOnAction(event -> jsonParser.loadAndPopulateAll(labelListViewMapDTO.getLabelListViewMapDTO()));
 
-        contextMenu.getItems().addAll(loadIntoSingleList,loadIntoMultipleList);
+        contextMenu.getItems().addAll(loadIntoSingleList, loadIntoMultipleList);
         label.setContextMenu(contextMenu);
     }
 

@@ -1,5 +1,6 @@
 package gr.ihu.ict.sportvideoanalysis;
 
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ListView;
 
 import java.sql.Connection;
@@ -9,12 +10,21 @@ import java.sql.Statement;
 import java.util.Map;
 
 public class DatabaseManager {
-    private static final String DB_URL = "jdbc:sqlite:your_database_name.db"; // SQLite database URL
+    private static final String DB_URL = "jdbc:sqlite:"; // SQLite database URL
     private Connection connection;
-    private final Map<String, ListView<String>> labelListViewMap;
 
-    public DatabaseManager(Map<String, ListView<String>> labelListViewMap) {
-        this.labelListViewMap = labelListViewMap;
+    private LabelListViewMapDTO labelListViewMapDTO;
+
+    public DatabaseManager(LabelListViewMapDTO labelListViewMapDTO) {
+        this.labelListViewMapDTO = labelListViewMapDTO;
+    }
+
+    public LabelListViewMapDTO getLabelListViewMapDTO() {
+        return labelListViewMapDTO;
+    }
+
+    public void setLabelListViewMapDTO(LabelListViewMapDTO labelListViewMapDTO) {
+        this.labelListViewMapDTO = labelListViewMapDTO;
     }
 
     public void createDatabase() {
@@ -22,14 +32,15 @@ public class DatabaseManager {
             // Initialize the SQLite JDBC driver
             Class.forName("org.sqlite.JDBC");
 
-
             // Connect to the database (creates the database if it doesn't exist)
-            connection = DriverManager.getConnection(DB_URL);
+            String dbName = DB_URL+Main.activeProfile.getProfName()+".db";
+            connection = DriverManager.getConnection(dbName);
 
             // Define table schemas based on the label names
             defineTableSchemas();
+            populateTablesFromListViews();
 
-            System.out.println("Database created successfully.");
+            System.out.println("Database created and populated successfully.");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } finally {
@@ -48,7 +59,7 @@ public class DatabaseManager {
             statement.executeUpdate(createVideoTableSQL);
 
             // Iterate through the labelToListViewMap
-            for (Map.Entry<String, ListView<String>> entry : labelListViewMap.entrySet()) {
+            for (Map.Entry<String, ListView<String>> entry : labelListViewMapDTO.getLabelListViewMapDTO().entrySet()) {
                 String tableName = entry.getKey();
 
                 String createTableSQL = "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
@@ -65,6 +76,25 @@ public class DatabaseManager {
                         + "FOREIGN KEY (" + tableName + "_id) REFERENCES " + tableName + "(id));";
 
                 statement.executeUpdate(createJunctionTableSQL);
+            }
+        }
+    }
+
+    private void populateTablesFromListViews() throws SQLException {
+        for (Map.Entry<String, ListView<String>> entry : labelListViewMapDTO.getLabelListViewMapDTO().entrySet()) {
+            String tableName = entry.getKey();
+            ListView<String> listView = entry.getValue();
+
+            try (Statement statement = connection.createStatement()) {
+                // Clear existing data in the table
+                String deleteAllRowsSQL = "DELETE FROM " + tableName;
+                statement.executeUpdate(deleteAllRowsSQL);
+
+                // Insert new data from the ListView into the table
+                for (String item : listView.getItems()) {
+                    String insertDataSQL = "INSERT INTO " + tableName + " (column_name) VALUES ('" + item + "');";
+                    statement.executeUpdate(insertDataSQL);
+                }
             }
         }
     }

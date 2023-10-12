@@ -25,6 +25,10 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -192,31 +196,96 @@ public class VideoScreenController implements Initializable {
         }
     }
 
-    public void addRecButtonOnAction(){
-        Main.showErrorDialog("Check","Add record to db");
+    public void addRecButtonOnAction() {
+        String videoPath = selectedFile.getAbsolutePath();
+        String startTime = startTimeTextField.getText();
+        String endTime = endTimeTextField.getText();
+
+        // Load the existing database and insert the video record
+        DatabaseManager databaseManager = new DatabaseManager(Main.activeProfile.getProfName() + ".db");
+        databaseManager.getConnection(); // Establish the connection
+
+        insertVideoRecord(databaseManager, videoPath, startTime, endTime);
+        establishLinks(databaseManager, videoPath);
+
+        // Close the connection when done
+        databaseManager.closeConnection();
     }
+
+    private void insertVideoRecord(DatabaseManager databaseManager, String videoPath, String startTime, String endTime) {
+        Connection connection = databaseManager.getConnection();
+        if (connection == null) {
+            // Handle the case where the database doesn't exist
+            return;
+        }
+
+        try {
+            String insertSQL = "INSERT INTO video (VideoLoc, Start, End) VALUES (?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
+                preparedStatement.setString(1, videoPath);
+                preparedStatement.setString(2, startTime);
+                preparedStatement.setString(3, endTime);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void establishLinks(DatabaseManager databaseManager,String videoPath) {
+        try {
+            Connection connection = databaseManager.getConnection();
+            if (connection == null) {
+                // Handle the case where the database doesn't exist
+                return;
+            }
+
+            // Iterate through the label names and associated ListViews
+            for (Map.Entry<String, ListView<String>> entry : labelListViewMapDTO.getLabelListViewMapDTO().entrySet()) {
+                String labelName = entry.getKey();
+                ListView<String> listView = entry.getValue();
+
+                // Iterate through the selected items in the ListView and establish links
+                for (String selectedItem : listView.getSelectionModel().getSelectedItems()) {
+                    String tableName = "video_" + labelName;
+                    String selectVideoIDSQL = "SELECT id FROM video WHERE VideoLoc = ?";
+                    String selectItemIDSQL = "SELECT id FROM " + labelName + " WHERE column_name = ?";
+                    String insertLinkSQL = "INSERT INTO " + tableName + " (video_id, " + labelName + "_id) VALUES (?, ?)";
+
+                    try (PreparedStatement selectVideoIDStatement = connection.prepareStatement(selectVideoIDSQL);
+                         PreparedStatement selectItemIDStatement = connection.prepareStatement(selectItemIDSQL);
+                         PreparedStatement insertLinkStatement = connection.prepareStatement(insertLinkSQL)) {
+
+                        selectVideoIDStatement.setString(1, videoPath);
+                        ResultSet videoIDResult = selectVideoIDStatement.executeQuery();
+
+                        if (videoIDResult.next()) {
+                            int videoID = videoIDResult.getInt("id");
+
+                            selectItemIDStatement.setString(1, selectedItem);
+                            ResultSet itemIDResult = selectItemIDStatement.executeQuery();
+
+                            if (itemIDResult.next()) {
+                                int itemID = itemIDResult.getInt("id");
+
+                                insertLinkStatement.setInt(1, videoID);
+                                insertLinkStatement.setInt(2, itemID);
+                                insertLinkStatement.executeUpdate();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void managementOnAction() {
         openManagement();
     }
-//    public void openManagement(){
-//        try{
-//            controllerManager.setLabelListViewMapDTO(labelListViewMapDTO);
-//            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("managementView.fxml")));
-//            Stage managementStage = new Stage();
-//            managementStage.initStyle(StageStyle.TRANSPARENT);
-//            Scene managementScene = new Scene(root);
-//
-//            managementStage.setScene(managementScene);
-//            managementScene.setFill(Color.TRANSPARENT);
-//            managementStage.initModality(Modality.APPLICATION_MODAL);
-//            managementStage.setTitle("Profile Manager");
-//
-//            managementStage.showAndWait();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+
     public void openManagement() {
         try {
             // Set the labelListViewMapDTO in the ControllerManager

@@ -1,14 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gr.ihu.ict.sportvideoanalysis.DatabaseController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane fx:id="databasePane" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.ihu.ict.sportvideoanalysis.DatabaseController">
+   <children>
+      <VBox prefHeight="800.0" prefWidth="246.0" styleClass="sidebar" stylesheets="@../../../../stylesheets/dark.css">
+         <children>
+            <VBox alignment="CENTER" prefHeight="306.0" prefWidth="225.0" styleClass="box">
+               <children>
+                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="DATABASE MENU" textAlignment="CENTER" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="77.0">
+                     <children>
+                        <JFXButton fx:id="createDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#createDatabaseOnAction" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Create Database" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="loadDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#loadDatabaseOnClick" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Load Database" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="41.0">
+                     <children>
+                        <JFXButton fx:id="updateDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Update Database" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="checkDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Check Database" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="458.0" prefWidth="246.0" styleClass="box">
+               <children>
+                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="CLIPS MENU" textAlignment="CENTER" textFill="#7c8184">
+                     <font>
+                        <Font name="Comfortaa Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="77.0">
+                     <children>
+                        <JFXButton fx:id="unsavedClipsButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Show Unsaved Clips" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="savedClipsButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Show Saved Clips" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="41.0">
+                     <children>
+                        <JFXButton fx:id="saveClipsButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Save Clips" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                     <children>
+                        <TextArea fx:id="queryArea" prefHeight="196.0" prefWidth="184.0" promptText="enter keywords seperated by commas (,)" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="queryButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Query for new highlight" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
+                     <children>
+                        <JFXButton fx:id="saveHighlightButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Save highlight" textAlignment="CENTER">
+                           <font>
+                              <Font name="Comfortaa" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="246.0" prefHeight="800.0" prefWidth="1034.0" style="-fx-background-color: #FDF5E6;" styleClass="sidebar" stylesheets="@../../../../stylesheets/dark.css">
+         <children>
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="28.0" prefWidth="1034.0" styleClass="btns" stylesheets="@../../../../stylesheets/dark.css">
+              <items>
+                <Button fx:id="exitButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#exitButtonOnAction" styleClass="loginbtns" stylesheets="@../../../../stylesheets/dark.css">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="REMOVE" />
+                     </graphic>
+                  </Button>
+              </items>
+            </ToolBar>
+            <TableView fx:id="tableView" prefHeight="800.0" prefWidth="1034.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>

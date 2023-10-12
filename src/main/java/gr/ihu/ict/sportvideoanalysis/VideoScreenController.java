@@ -25,12 +25,13 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static gr.ihu.ict.sportvideoanalysis.JsonParser.loadAndPopulateAll;
-import static gr.ihu.ict.sportvideoanalysis.JsonParser.loadAndPopulateOne;
 import static gr.ihu.ict.sportvideoanalysis.Main.activeProfile;
 import static gr.ihu.ict.sportvideoanalysis.Main.isValidFile;
 
@@ -63,16 +64,20 @@ public class VideoScreenController implements Initializable {
     private File selectedFile;
     private Media media;
     private MediaPlayer mediaPlayer;
-    private Map<String, ListView<String>> labelToListViewMap = new HashMap<>();
-
+    private LabelListViewMapDTO labelListViewMapDTO = new LabelListViewMapDTO();
+    private ControllerManager controllerManager;
 
 
     public VideoScreenController(){
         videoChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Video Files", "*.mp4", "*.flv", "*.avi"));
+        // Initialize the labelListViewMapDTO
+        labelListViewMapDTO.setLabelListViewMapDTO(new HashMap<>());
+        this.controllerManager = new ControllerManager();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         createListViews();
         volumeSlider.setValue(0.5);
         // Bind the volume slider to the MediaPlayer's volume property
@@ -191,16 +196,112 @@ public class VideoScreenController implements Initializable {
         }
     }
 
-    public void addRecButtonOnAction(){
-        Main.showErrorDialog("Check","Add record to db");
+    public void addRecButtonOnAction() {
+        String videoPath = selectedFile.getAbsolutePath();
+        String startTime = startTimeTextField.getText();
+        String endTime = endTimeTextField.getText();
+
+        // Load the existing database and insert the video record
+        DatabaseManager databaseManager = new DatabaseManager(Main.activeProfile.getProfName() + ".db");
+        databaseManager.getConnection(); // Establish the connection
+
+        insertVideoRecord(databaseManager, videoPath, startTime, endTime);
+        establishLinks(databaseManager, videoPath);
+
+        // Close the connection when done
+        databaseManager.closeConnection();
     }
+
+    private void insertVideoRecord(DatabaseManager databaseManager, String videoPath, String startTime, String endTime) {
+        Connection connection = databaseManager.getConnection();
+        if (connection == null) {
+            // Handle the case where the database doesn't exist
+            return;
+        }
+
+        try {
+            String insertSQL = "INSERT INTO video (VideoLoc, Start, End) VALUES (?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
+                preparedStatement.setString(1, videoPath);
+                preparedStatement.setString(2, startTime);
+                preparedStatement.setString(3, endTime);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void establishLinks(DatabaseManager databaseManager,String videoPath) {
+        try {
+            Connection connection = databaseManager.getConnection();
+            if (connection == null) {
+                // Handle the case where the database doesn't exist
+                return;
+            }
+
+            // Iterate through the label names and associated ListViews
+            for (Map.Entry<String, ListView<String>> entry : labelListViewMapDTO.getLabelListViewMapDTO().entrySet()) {
+                String labelName = entry.getKey();
+                ListView<String> listView = entry.getValue();
+
+                // Iterate through the selected items in the ListView and establish links
+                for (String selectedItem : listView.getSelectionModel().getSelectedItems()) {
+                    String tableName = "video_" + labelName;
+                    String selectVideoIDSQL = "SELECT id FROM video WHERE VideoLoc = ?";
+                    String selectItemIDSQL = "SELECT id FROM " + labelName + " WHERE column_name = ?";
+                    String insertLinkSQL = "INSERT INTO " + tableName + " (video_id, " + labelName + "_id) VALUES (?, ?)";
+
+                    try (PreparedStatement selectVideoIDStatement = connection.prepareStatement(selectVideoIDSQL);
+                         PreparedStatement selectItemIDStatement = connection.prepareStatement(selectItemIDSQL);
+                         PreparedStatement insertLinkStatement = connection.prepareStatement(insertLinkSQL)) {
+
+                        selectVideoIDStatement.setString(1, videoPath);
+                        ResultSet videoIDResult = selectVideoIDStatement.executeQuery();
+
+                        if (videoIDResult.next()) {
+                            int videoID = videoIDResult.getInt("id");
+
+                            selectItemIDStatement.setString(1, selectedItem);
+                            ResultSet itemIDResult = selectItemIDStatement.executeQuery();
+
+                            if (itemIDResult.next()) {
+                                int itemID = itemIDResult.getInt("id");
+
+                                insertLinkStatement.setInt(1, videoID);
+                                insertLinkStatement.setInt(2, itemID);
+                                insertLinkStatement.executeUpdate();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void managementOnAction() {
         openManagement();
     }
-    public void openManagement(){
-        try{
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("managementView.fxml")));
+
+    public void openManagement() {
+        try {
+            // Set the labelListViewMapDTO in the ControllerManager
+            controllerManager.setLabelListViewMapDTO(labelListViewMapDTO);
+
+            // Load the DatabaseController and set the ControllerManager
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("managementView.fxml"));
+            Parent root = loader.load();
+
+            // Get the DatabaseController instance from the loader
+            DatabaseController databaseController = loader.getController();
+
+            // Set the ControllerManager instance in the DatabaseController
+            databaseController.setControllerManager(controllerManager);
+
+            // Create the stage for the management view
             Stage managementStage = new Stage();
             managementStage.initStyle(StageStyle.TRANSPARENT);
             Scene managementScene = new Scene(root);
@@ -211,60 +312,69 @@ public class VideoScreenController implements Initializable {
             managementStage.setTitle("Profile Manager");
 
             managementStage.showAndWait();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public void databaseOnAction() {
         openDatabaseManagement();
     }
     public void openDatabaseManagement(){
         try{
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("databaseView.fxml")));
-            Stage managementStage = new Stage();
-            managementStage.initStyle(StageStyle.TRANSPARENT);
-            Scene managementScene = new Scene(root);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("databaseView.fxml"));
+            Parent root = loader.load();
 
-            managementStage.setScene(managementScene);
-            managementScene.setFill(Color.TRANSPARENT);
-            managementStage.initModality(Modality.APPLICATION_MODAL);
-            managementStage.setTitle("Database Manager");
+            // Get the controller instance from the loader
+            DatabaseController databaseController = loader.getController();
 
-            managementStage.showAndWait();
+            // Set the LabelListViewMapDTO and ControllerManager here
+            databaseController.setLabelListViewMapDTO(labelListViewMapDTO);
+            databaseController.setControllerManager(controllerManager);
+
+            Stage databaseStage = new Stage();
+            databaseStage.initStyle(StageStyle.TRANSPARENT);
+            Scene databaseScene = new Scene(root);
+
+            databaseStage.setScene(databaseScene);
+            databaseScene.setFill(Color.TRANSPARENT);
+            databaseStage.initModality(Modality.APPLICATION_MODAL);
+            databaseStage.setTitle("Database Manager");
+
+            databaseStage.showAndWait();
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    public void createListViews(){
+    public void createListViews() {
         listViewContainer.getChildren().clear();
 
-        for(int i = 0; i < activeProfile.getListNo(); i++){
+        for (int i = 0; i < activeProfile.getListNo(); i++) {
             VBox vBox = new VBox();
             ListView<String> listView = new ListView<>();
             Label label = new Label(activeProfile.getListNames().get(i));
             // Set the selection mode of the ListView to MULTIPLE
             listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-
-            //Customize label properties
+            // Customize label properties
             label.setMinHeight(50);
             label.setFont(new Font(14));
             label.setTextFill(Color.WHITE);
             label.setAlignment(Pos.CENTER);
             label.setStyle("-fx-background-color: E96151; -fx-border-color: #FDF5E6; -fx-border-width: 0.1px;");
-            addContextMenu(label,listView);
+            addContextMenu(label, listView);
 
-            listView.getItems().addAll("1","2");
+            listView.getItems().addAll("1", "2");
             label.prefWidthProperty().bind(listView.widthProperty());
             vBox.getChildren().addAll(label, listView);
             listViewContainer.getChildren().add(vBox);
 
+            // Add the label and its associated ListView to the map in LabelListViewMapDTO
+            labelListViewMapDTO.getLabelListViewMapDTO().put(label.getText(), listView);
         }
     }
-
-
 
     private String formatTime(Duration time){
         long millis = (long) time.toMillis();
@@ -309,23 +419,16 @@ public class VideoScreenController implements Initializable {
 
     private void addContextMenu(Label label, ListView<String> listView) {
         ContextMenu contextMenu = new ContextMenu();
+        JsonParser jsonParser = new JsonParser();
 
-        // Add the label and its associated ListView to the map
-        labelToListViewMap.put(label.getText(), listView);
-
-        MenuItem loadIntoSingleList = new MenuItem("load Data into "+ label.getText());
-        loadIntoSingleList.setOnAction(event -> loadAndPopulateOne(listView));
+        MenuItem loadIntoSingleList = new MenuItem("load Data into " + label.getText());
+        loadIntoSingleList.setOnAction(event -> jsonParser.loadAndPopulateOne(listView));
 
         MenuItem loadIntoMultipleList = new MenuItem("load Data into all lists");
-        loadIntoMultipleList.setOnAction(event -> loadAndPopulateAll(labelToListViewMap));
+        loadIntoMultipleList.setOnAction(event -> jsonParser.loadAndPopulateAll(labelListViewMapDTO.getLabelListViewMapDTO()));
 
-        contextMenu.getItems().addAll(loadIntoSingleList,loadIntoMultipleList);
+        contextMenu.getItems().addAll(loadIntoSingleList, loadIntoMultipleList);
         label.setContextMenu(contextMenu);
     }
-
-
-
-
-
 
 }

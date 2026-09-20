@@ -61,7 +61,7 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="41.0">
                      <children>
-                        <JFXButton fx:id="updateDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Update Database" textAlignment="CENTER">
+                        <JFXButton fx:id="updateDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Clear Selected Clips" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>
@@ -76,7 +76,7 @@
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <JFXButton fx:id="checkDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Check Database" textAlignment="CENTER">
+                        <JFXButton fx:id="checkDbButton" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: E96151; -fx-background-radius: 0px;" text="Show selected Clips" textAlignment="CENTER">
                            <font>
                               <Font name="Comfortaa" size="14.0" />
                            </font>

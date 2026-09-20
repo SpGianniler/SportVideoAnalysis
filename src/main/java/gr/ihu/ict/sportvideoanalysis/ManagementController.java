@@ -59,14 +59,26 @@ public class ManagementController implements Initializable {
     public void loadLabelOnAction(){
         File selectedFile = fileChooser.showOpenDialog(managementPane.getScene().getWindow());
         if (isValidFile(selectedFile, Collections.singletonList("json"))){
-            String file = selectedFile.getAbsolutePath();
-            String title = "Check Check"; // temporary check to make sure that the program reads the correct file
-            Main.showErrorDialog(title,"File Name \n" + file);
-        }
-        else{
+            JsonParser jsonParser = new JsonParser();
+            Profile loadedProfile = jsonParser.importFromJson(selectedFile.getAbsolutePath());
+            if (loadedProfile != null) {
+                Main.activeProfile = loadedProfile;
+                profNameText.setText(loadedProfile.getProfName());
+                listNoText.setText(String.valueOf(loadedProfile.getListNo()));
+                StringBuilder sb = new StringBuilder();
+                for (String s : loadedProfile.getListNames()) {
+                    if (sb.length() > 0) sb.append(", ");
+                    sb.append(s);
+                }
+                listsNameText.setText(sb.toString());
+                Main.showErrorDialog("Profile Loaded", "Loaded profile: " + loadedProfile.getProfName());
+            } else {
+                Main.showErrorDialog("Load Failed", "Could not load profile from file.");
+            }
+        } else {
             String title = "Wrong file type";
             String message = "Please make sure you have selected a valid .json file";
-            Main.showErrorDialog(title,message);
+            Main.showErrorDialog(title, message);
         }
     }
 
@@ -96,7 +108,7 @@ public class ManagementController implements Initializable {
     public void setAsActiveOnClick(){
 //        VideoScreenController.createListViews(); //maybe create the same in managementController
         Main.activeProfile = getProfileTextValues();
-        //todo: implement video screen refactor after changing the active profile
+        VideoScreenController.refreshProfile();
     }
 
     public void setSetAsActiveSaveBtn(){
@@ -108,19 +120,41 @@ public class ManagementController implements Initializable {
 
     protected Profile getProfileTextValues(){
         Profile profile = new Profile();
+        String name = profNameText.getText() == null ? "" : profNameText.getText().trim();
+        if (name.isEmpty()) {
+            Main.showErrorDialog("Invalid Profile", "Profile name cannot be empty.");
+            throw new IllegalArgumentException("Profile name empty");
+        }
+        profile.setProfName(name);
+
+        String listNoTextVal = listNoText.getText();
+        int listNo = 0;
+        try {
+            listNo = Integer.parseInt(listNoTextVal.trim());
+            if (listNo <= 0) throw new IllegalArgumentException();
+        } catch (Exception e) {
+            Main.showErrorDialog("Invalid Number", "List number must be a positive integer.");
+            throw new IllegalArgumentException("Invalid listNo");
+        }
+        profile.setListNo(listNo);
 
         String inputText = listsNameText.getText();
-        String[] splitParts = inputText.split(",");
-
         ArrayList<String> parts = new ArrayList<>();
-        for (String part : splitParts){
-            parts.add(part.trim());
+        if (inputText != null) {
+            for (String part : inputText.split(",")) {
+                String trimmed = part.trim();
+                if (!trimmed.isEmpty()) parts.add(trimmed);
+            }
         }
-
-        profile.setProfName(profNameText.getText());
-        profile.setListNo(Integer.parseInt(listNoText.getText()));
+        if (parts.isEmpty()) {
+            Main.showErrorDialog("Invalid Lists", "At least one list name is required.");
+            throw new IllegalArgumentException("Empty list names");
+        }
+        if (parts.size() > listNo) {
+            Main.showErrorDialog("List Mismatch", "There seem to be more list names (" + parts.size() + ") than the number of lists (" + listNo + "). Please fix it.");
+            // handled delicately — user sees modal and can fix
+        }
         profile.setListNames(parts);
-
         return profile;
     }
 

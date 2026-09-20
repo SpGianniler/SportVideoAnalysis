@@ -1,0 +1,6 @@
+{
+  "Players": ["player1", "player2", "player3", "player4"],
+  "Attack": ["shot", "pass", "dribble", "cross"],
+  "Defence": ["tackle", "block", "intercept", "clearance"],
+  "Transition": ["change of possession", "set piece", "counter", "press"]
+}

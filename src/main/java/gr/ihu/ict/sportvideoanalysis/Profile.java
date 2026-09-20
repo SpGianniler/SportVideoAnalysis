@@ -15,9 +15,9 @@ public class Profile {
     }
 
     public Profile() {
-        this.profName = null;
-        this.listNo = 0;
-        this.listNames = null;
+        this.profName = "defaultProfile";
+        this.listNo = 1;
+        this.listNames = new java.util.ArrayList<>(java.util.Arrays.asList("Action"));
     }
 
     public String getProfName() {

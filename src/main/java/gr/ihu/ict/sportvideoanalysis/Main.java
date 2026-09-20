@@ -28,6 +28,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         JsonParser jsonParser = new JsonParser();
         activeProfile = jsonParser.importFromJson(DEFAULT_PROFILE);
+        if (activeProfile == null || activeProfile.getProfName() == null || activeProfile.getProfName().isEmpty()) {
+            activeProfile = new Profile("defaultProfile", 1, new java.util.ArrayList<>(java.util.Arrays.asList("Action")));
+        }
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         Scene scene = new Scene(root);

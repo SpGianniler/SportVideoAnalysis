@@ -66,6 +66,7 @@ public class VideoScreenController implements Initializable {
     private MediaPlayer mediaPlayer;
     private LabelListViewMapDTO labelListViewMapDTO = new LabelListViewMapDTO();
     private ControllerManager controllerManager;
+    private static VideoScreenController instance;
 
 
     public VideoScreenController(){
@@ -73,6 +74,7 @@ public class VideoScreenController implements Initializable {
         // Initialize the labelListViewMapDTO
         labelListViewMapDTO.setLabelListViewMapDTO(new HashMap<>());
         this.controllerManager = new ControllerManager();
+        instance = this;
     }
 
     @Override
@@ -114,13 +116,15 @@ public class VideoScreenController implements Initializable {
 
     public void loadVideoButtonOnaAction(){
         loadVideo();
+        if (selectedFile == null) {
+            return; // user canceled file chooser
+        }
         if(mediaPlayer!=null){
             mediaPlayer.stop();
             mediaPlayer.dispose();
         }
         media = new Media(selectedFile.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-
     }
 
     public void playButtonOnAction(){
@@ -197,96 +201,54 @@ public class VideoScreenController implements Initializable {
     }
 
     public void addRecButtonOnAction() {
+        if (selectedFile == null) {
+            Main.showErrorDialog("No Video", "Please load a video first.");
+            return;
+        }
         String videoPath = selectedFile.getAbsolutePath();
         String startTime = startTimeTextField.getText();
         String endTime = endTimeTextField.getText();
 
-        // Load the existing database and insert the video record
         DatabaseManager databaseManager = new DatabaseManager(Main.activeProfile.getProfName() + ".db");
-        databaseManager.getConnection(); // Establish the connection
-
-        insertVideoRecord(databaseManager, videoPath, startTime, endTime);
-        establishLinks(databaseManager, videoPath);
-
-        // Close the connection when done
-        databaseManager.closeConnection();
-    }
-
-    private void insertVideoRecord(DatabaseManager databaseManager, String videoPath, String startTime, String endTime) {
         Connection connection = databaseManager.getConnection();
         if (connection == null) {
-            // Handle the case where the database doesn't exist
+            Main.showErrorDialog("No Database", "Please create or load the database for this profile first.");
             return;
         }
-
         try {
-            String insertSQL = "INSERT INTO video (VideoLoc, Start, End) VALUES (?, ?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
-                preparedStatement.setString(1, videoPath);
-                preparedStatement.setString(2, startTime);
-                preparedStatement.setString(3, endTime);
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void establishLinks(DatabaseManager databaseManager,String videoPath) {
-        try {
-            Connection connection = databaseManager.getConnection();
-            if (connection == null) {
-                // Handle the case where the database doesn't exist
-                return;
-            }
-
-            // Iterate through the label names and associated ListViews
+            // Build flat tags array and categories array from selected items
+            java.util.ArrayList<String> tagsList = new java.util.ArrayList<>();
+            java.util.ArrayList<String> categoriesList = new java.util.ArrayList<>();
             for (Map.Entry<String, ListView<String>> entry : labelListViewMapDTO.getLabelListViewMapDTO().entrySet()) {
-                String labelName = entry.getKey();
                 ListView<String> listView = entry.getValue();
-
-                // Iterate through the selected items in the ListView and establish links
-                for (String selectedItem : listView.getSelectionModel().getSelectedItems()) {
-                    String tableName = "video_" + labelName;
-                    String selectVideoIDSQL = "SELECT id FROM video WHERE VideoLoc = ?";
-                    String selectItemIDSQL = "SELECT id FROM " + labelName + " WHERE column_name = ?";
-                    String insertLinkSQL = "INSERT INTO " + tableName + " (video_id, " + labelName + "_id) VALUES (?, ?)";
-
-                    try (PreparedStatement selectVideoIDStatement = connection.prepareStatement(selectVideoIDSQL);
-                         PreparedStatement selectItemIDStatement = connection.prepareStatement(selectItemIDSQL);
-                         PreparedStatement insertLinkStatement = connection.prepareStatement(insertLinkSQL)) {
-
-                        selectVideoIDStatement.setString(1, videoPath);
-                        ResultSet videoIDResult = selectVideoIDStatement.executeQuery();
-
-                        if (videoIDResult.next()) {
-                            int videoID = videoIDResult.getInt("id");
-
-                            selectItemIDStatement.setString(1, selectedItem);
-                            ResultSet itemIDResult = selectItemIDStatement.executeQuery();
-
-                            if (itemIDResult.next()) {
-                                int itemID = itemIDResult.getInt("id");
-
-                                insertLinkStatement.setInt(1, videoID);
-                                insertLinkStatement.setInt(2, itemID);
-                                insertLinkStatement.executeUpdate();
-                            }
-                        }
-                    }
+                List<String> selected = new java.util.ArrayList<>(listView.getSelectionModel().getSelectedItems());
+                if (!selected.isEmpty()) {
+                    categoriesList.add(entry.getKey());
+                    tagsList.addAll(selected);
                 }
             }
+            String tagsStr = tagsList.toString();
+            String categoriesStr = categoriesList.toString();
+
+            String insertSQL = "INSERT INTO video (VideoLoc, Start, End, tags, categories) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement ps = connection.prepareStatement(insertSQL)) {
+                ps.setString(1, videoPath);
+                ps.setString(2, startTime);
+                ps.setString(3, endTime);
+                ps.setString(4, tagsStr);
+                ps.setString(5, categoriesStr);
+                ps.executeUpdate();
+            }
+            Main.showErrorDialog("Record Added", "Clip saved with tags and categories.");
         } catch (SQLException e) {
             e.printStackTrace();
+            Main.showErrorDialog("DB Error", "Failed to save clip.");
+        } finally {
+            databaseManager.closeConnection();
         }
     }
 
-
-    public void managementOnAction() {
-        openManagement();
-    }
-
-    public void openManagement() {
+     public void openManagement() {
         try {
             // Set the labelListViewMapDTO in the ControllerManager
             controllerManager.setLabelListViewMapDTO(labelListViewMapDTO);
@@ -295,11 +257,7 @@ public class VideoScreenController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("managementView.fxml"));
             Parent root = loader.load();
 
-            // Get the DatabaseController instance from the loader
-            DatabaseController databaseController = loader.getController();
-
-            // Set the ControllerManager instance in the DatabaseController
-            databaseController.setControllerManager(controllerManager);
+            ManagementController managementController = loader.getController();
 
             // Create the stage for the management view
             Stage managementStage = new Stage();
@@ -317,6 +275,10 @@ public class VideoScreenController implements Initializable {
         }
     }
 
+
+    public void managementOnAction() {
+        openManagement();
+    }
 
     public void databaseOnAction() {
         openDatabaseManagement();
@@ -345,6 +307,12 @@ public class VideoScreenController implements Initializable {
             databaseStage.showAndWait();
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public static void refreshProfile() {
+        if (instance != null) {
+            instance.createListViews();
         }
     }
 
